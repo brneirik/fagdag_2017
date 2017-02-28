@@ -52,7 +52,7 @@ pipeline {
 				stage('deploy')  {	
 					steps{
 						unstash 'artifacts'
-				   		sh('stat target/fagdag.war')
+				   		sh('cp target/fagdag.war /opt/tomcat/webapps/')
 					}
 
 				}
