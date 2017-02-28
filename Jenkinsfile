@@ -43,6 +43,7 @@ pipeline {
 					steps{
 				   		publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
 				   		archiveArtifacts 'target/*.war'
+				   		sh 'ls'
 					}
 				}
 			
