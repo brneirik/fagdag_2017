@@ -10,8 +10,17 @@ pipeline {
 	    		//Sjekker ut panorama for bygg på hovedslave
 				stage('checkout'){
 					steps{
-						git branch: 'dev', url: 'https://github.com/brneirik/fagdag_2017.git'
-						sh('git clean -fd')
+						git branch: 'master', url: 'https://github.com/brneirik/fagdag_2017.git'
+						//sh('git clean -fd')
+					}
+				}
+				stage('mvn clean')  {
+					tools{
+						jdk "OpenJDK 8 (Ubuntu package default)"
+						maven "apache-maven-3.3.9"
+					}		
+					steps{
+				   		sh('mvn clean') 
 					}
 				}
 				
