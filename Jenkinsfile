@@ -44,7 +44,7 @@ pipeline {
 				   		publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
 				   		archiveArtifacts 'target/*.war'
 							stash includes: 'target/fagdag.war', name: 'artifacts'
-				   		step([$class: 'CopyArtifact', filter: 'target/fagdag.war', fingerprintArtifacts: true, flatten: true, projectName: 'Test', selector: [$class: 'SpecificBuildSelector', buildNumber: '${BUILD_NUMBER}'], target: '/data/artifacts/'])
+				   		step([$class: 'CopyArtifact', filter: 'target/fagdag.war', fingerprintArtifacts: true, flatten: true, projectName: 'WorldDomintation.js', selector: [$class: 'SpecificBuildSelector', buildNumber: '${BUILD_NUMBER}'], target: '/data/artifacts/'])
 
 					}
 
