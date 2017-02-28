@@ -16,7 +16,7 @@ pipeline {
 				}
 				stage('mvn clean')  {
 					tools{
-						jdk "OpenJDK 8 (Ubuntu package default)"
+						jdk "JDK 8"
 						maven "apache-maven-3.3.9"
 					}		
 					steps{
