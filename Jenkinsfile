@@ -8,13 +8,10 @@ pipeline {
 			
 	    // some block
 	    		//Sjekker ut panorama for bygg på hovedslave
-				stage('checkout'){
-					steps{
-						git branch: 'master', url: 'https://github.com/brneirik/fagdag_2017.git'
-						//sh('git clean -fd')
-					}
-				}
 				stage('mvn clean')  {
+					agent{
+						label 'slave'
+				}
 					tools{
 						jdk "JDK 8"
 						maven "apache-maven-3.3.9"
@@ -24,7 +21,9 @@ pipeline {
 					}
 				}
 				stage('mvn install')  {
-					agent{label 'slave'}
+					agent{
+						label 'slave'
+					}
 					tools{
 						jdk "JDK 8"
 						maven "apache-maven-3.3.9"
@@ -33,6 +32,20 @@ pipeline {
 				   		sh('mvn install') 
 					}
 				}
+				stage('post build')  {
+					agent{
+						label 'slave'
+					}
+					tools{
+						jdk "JDK 8"
+						maven "apache-maven-3.3.9"
+					}		
+					steps{
+				   		publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
+						junit '**/build/test-results/*.xml'	
+					}
+				}
+			
 				
 	}			
 }
