@@ -42,7 +42,7 @@ pipeline {
 					}		
 					steps{
 				   		publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
-						junit '**/build/test-results/*.xml'	
+				   		archiveArtifacts 'target/*.war'
 					}
 				}
 			
