@@ -76,7 +76,7 @@ pipeline {
 		stage('Publish'){
 			steps{
 				unstash 'artifacts'
-				sh ('mv target/fagdag.war /data/artifacts/fagdag-1.0.${BUILD_NUMBER}.war')
+				sh ('cp target/fagdag.war /data/artifacts/fagdag-1.0.${BUILD_NUMBER}.war')
 			}
 		}
 	
