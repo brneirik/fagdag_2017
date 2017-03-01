@@ -31,14 +31,10 @@ pipeline {
 			}
 		}
 
-		stage('post build')  {
+		stage('Post build')  {
 			agent{
 				label 'slave'
-			}
-			tools{
-				jdk "JDK 8"
-				maven "apache-maven-3.3.9"
-			}		
+			}	
 			steps{
 		   		publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
 		   		archiveArtifacts 'target/*.war'
@@ -47,7 +43,7 @@ pipeline {
 			}
 
 		}
-		stage('deploy')  {	
+		stage('Deploy')  {	
 			steps{
 				unstash 'artifacts'
 		   		sh('rm -rf /opt/tomcat/webapps/fagdag.war && cp target/fagdag.war /opt/tomcat/webapps/')
@@ -80,7 +76,7 @@ pipeline {
 		stage('Publish'){
 			steps{
 				unstash 'artifacts'
-				sh ('mv target/fagdag.war /data/artifacts/fagdag-${BUILD_NUMBER}.war')
+				sh ('mv target/fagdag.war /data/artifacts/fagdag-1.0.${BUILD_NUMBER}.war')
 			}
 		}
 	
