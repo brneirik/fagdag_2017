@@ -58,28 +58,25 @@ pipeline {
 				}
 				stage('Test'){
 					steps{
-					parallel(
-						"Smoketest" : {
-							sh (''' 
-							#!/bin/bash
-							res="$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://fagdagsjenkins.northeurope.cloudapp.azure.com:8081/fagdag/)"
-							if [ "$res" = "200" ]; then
-	  							echo "200 OK"
-	  							exit 0
-							else
-	  							echo "Returned status $res"
-	  							exit 1
-							fi
-							''')
-						},
-						"Akseptansetest" : {
-							sleep 10
-
-
-						},
-						failFast: true
-
-
+						parallel(
+							"Smoketest" : {
+								sh (''' 
+								#!/bin/bash
+								res="$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://fagdagsjenkins.northeurope.cloudapp.azure.com:8081/fagdag/)"
+								if [ "$res" = "200" ]; then
+		  							echo "200 OK"
+		  							exit 0
+								else
+		  							echo "Returned status $res"
+		  							exit 1
+								fi
+								''')
+							},
+							"Akseptansetest" : {
+								sleep 10
+							},
+							failFast: true
+						)
 					}
 				}
 				stage('Publish'){
