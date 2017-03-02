@@ -1,7 +1,7 @@
 #!groovy
 node {
 	String jdktool = tool name: "JDK 8", type: 'hudson.model.JDK'
-	def mvnHome = tool name: 'Maven 3.3.9'
+	def mvnHome = tool name: 'apache-maven-3.3.9'
 
 	List javaEnv = [
         "PATH+MVN=${jdktool}/bin:${mvnHome}/bin",
