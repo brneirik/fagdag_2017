@@ -10,19 +10,17 @@ node {
         "JAVA_HOME=${jdktool}"
 	]
 	withEnv(javaEnv) {
-		checkout scm
-		stage ('Build') {
-		 	try {
+		try {
+			checkout scm
+			stage ('Build') {
 		 		sh 'mvn clean install'
-		 	} catch (e) {
+			}
+		} catch (e) {
 		 		currentBuild.result = 'FAILURE'
-		 	}
-		}
+		 } finally {
+		 	notification currentBuild.result 
+		 }
 	}
-	post{
-		always{
-			notification currentBuild.result 
-		}
-	}
+	
 }
 
