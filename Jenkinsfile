@@ -1,4 +1,5 @@
 #!groovy
+@Library('fagdagjenkins-shared')
 node {
 	String jdktool = tool name: "JDK 8", type: 'hudson.model.JDK'
 	def mvnHome = tool name: 'apache-maven-3.3.9'
@@ -16,6 +17,11 @@ node {
 		 	} catch (e) {
 		 		currentBuild.result = 'FAILURE'
 		 	}
+		}
+	}
+	post{
+		always{
+			notification currentBuild.result 
 		}
 	}
 }
