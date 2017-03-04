@@ -1,4 +1,5 @@
 #!groovy
+@Library('fagdagjenkins-shared') _
 
 pipeline {
 	agent any
@@ -81,6 +82,11 @@ pipeline {
 		}
 	
 				
-	}			
+	}
+	post {
+		always{
+		 	notification currentBuild.result 		
+		}
+	}				
 }
 
