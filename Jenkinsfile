@@ -20,7 +20,9 @@ pipeline {
 		}		
 	}
 	post {
+		always{
 		 	notification currentBuild.result 		
+		}
 	}			
 }
 
