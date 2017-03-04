@@ -1,4 +1,5 @@
 #!groovy
+@Library('fagdagjenkins-shared') _
 
 pipeline {
 	agent any
@@ -14,9 +15,12 @@ pipeline {
 				maven "apache-maven-3.3.9"
 			}		
 			steps{
-		   		sh('ls') 
+		   		sh('mvn clean install') 
 			}
 		}		
+	}
+	post {
+		 	notification currentBuild.result 		
 	}			
 }
 
