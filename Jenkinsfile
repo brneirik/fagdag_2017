@@ -14,7 +14,6 @@ node('slave') {
 			checkout scm
 			stage ('Build') {
 		 		sh 'mvn clean install'
-		 		sh 'exit 1'
 			}
 		} catch (e) {
 		 		currentBuild.result = 'FAILURE'
