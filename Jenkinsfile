@@ -31,7 +31,6 @@ pipeline {
 		   		sh('mvn install') 
 			}
 		}
-
 		stage('Post build')  {
 			agent{
 				label 'slave'
@@ -47,7 +46,8 @@ pipeline {
 		stage('Deploy')  {	
 			steps{
 				unstash 'artifacts'
-		   		sh ("ssh -o StrictHostKeyChecking=no ${CRED} 'rm -rf /opt/tomcat/webapps/fagdag.war && cp target/fagdag.war /opt/tomcat/webapps/' ")
+		   		sh ("ssh -o StrictHostKeyChecking=no ${CRED} 'rm -rf /opt/tomcat/webapps/fagdag.war' ")
+		   		sh ("scp target/fagdag.war ${CRED}:/opt/tomcat/webapps/")
 			}
 		}
 		stage('Test'){
