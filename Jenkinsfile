@@ -18,9 +18,11 @@ pipeline {
 		   		sh('mvn clean install') 
 			}
 			post{
-				publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
-		   		archiveArtifacts 'target/*.war'
-				stash includes: 'target/fagdag.war', name: 'artifacts'
+				success{
+					publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '**/build/reports/profile/', reportFiles: '', reportName: 'HTML Report'])
+			   		archiveArtifacts 'target/*.war'
+					stash includes: 'target/fagdag.war', name: 'artifacts'
+				}
 			}
 		}
 				
