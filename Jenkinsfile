@@ -9,11 +9,7 @@ pipeline {
 		stage('mvn install')  {
 			agent{
 				docker { image 'maven:3.5.0-jdk-9' }
-			}
-			tools{
-				jdk "JDK 8"
-				maven "apache-maven-3.3.9"
-			}		
+			}	
 			steps{
 		   		sh('mvn clean install') 
 			}
