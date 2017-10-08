@@ -28,6 +28,7 @@ pipeline {
 			}
 			steps{	
 				unstash 'artifacts'
+				sh 'az acr login --name ${ACR}'
 		   		sh 'docker build . -t ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
 		   		sh 'docker push ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
 			}
