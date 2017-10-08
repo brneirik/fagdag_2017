@@ -12,6 +12,7 @@ pipeline {
 			}	
 			steps{
 		   		sh('mvn clean install') 
+		   		stash includes: 'target/fagdag.war', name: 'artifacts'
 			}
 			post{
 				success{
@@ -20,6 +21,17 @@ pipeline {
 					stash includes: 'target/fagdag.war', name: 'artifacts'
 				}
 			}
+		}
+		stage('docker push')  {
+			agent{
+				label 'slave1'
+			}
+			steps{	
+				unstash 'artifacts'
+		   		sh 'docker build . -t ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
+		   		sh 'docker push ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
+			}
+			
 		}
 				
 	}
