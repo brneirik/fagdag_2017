@@ -33,7 +33,7 @@ pipeline {
 				unstash 'artifacts'
 				//sh 'az acr login --name ${ACR}'
 		   		sh 'docker build . -t eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8'
-		   		sh 'gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8'
+		   		sh '~/google-cloud-sdk/bin/gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8'
 		   		//sh 'docker push ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
 			}
 			
