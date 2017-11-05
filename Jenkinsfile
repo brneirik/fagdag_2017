@@ -32,8 +32,8 @@ pipeline {
 			steps{	
 				unstash 'artifacts'
 				//sh 'az acr login --name ${ACR}'
-		   		sh 'docker build . -t eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8'
-		   		sh '~/google-cloud-sdk/bin/gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8'
+		   		sh 'docker build . -t eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1'
+		   		sh '~/google-cloud-sdk/bin/gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1'
 		   		//sh 'docker push ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
 			}
 			
@@ -46,7 +46,7 @@ pipeline {
 		}
 		stage('Create deployment')  {	
 			steps{
-				sh '~/kubectl run hello-web --image=eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8 --port=8080'
+				sh '~/kubectl run hello-web --image=eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1 --port=8080'
 			}
 		}
 		stage('Expose deployment and display ip-address')  {	
