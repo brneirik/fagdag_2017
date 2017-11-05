@@ -1,3 +1,10 @@
 FROM tomcat:8.0-jre8
-RUN value=`cat usr/local/conf/server.xml` && echo "${value//8080/80}" >| usr/local/conf/server.xml
-ADD target/fagdag.war /usr/local/webapps/
+
+RUN sed -i s/8080/80/g conf/server.xml
+RUN rm -rf webapps/ROOT
+
+ADD target/fagdag.war /usr/local/tomcat/webapps/ROOT.war
+#RUN apt-get update
+#RUN apt-get -y install tomcat8
+EXPOSE 80
+CMD ["/usr/share/tomcat8/bin/catalina.sh", "run"]
