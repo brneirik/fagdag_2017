@@ -32,47 +32,18 @@ pipeline {
 			steps{	
 				unstash 'artifacts'
 				//sh 'az acr login --name ${ACR}'
-		   		sh 'docker build . -t eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1'
-		   		sh '~/google-cloud-sdk/bin/gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1'
+		   		sh "docker build . -t eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-${BUILD_NUMBER}"
+		   		sh "~/google-cloud-sdk/bin/gcloud docker -- push eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-${BUILD_NUMBER}"
 		   		//sh 'docker push ${ACR}.azurecr.io/tomcat-fagdag:t8j8'
 			}
 			
 		}
-	
-		stage('Create k8s cluster')  {	
+		stage('Update running app'){
 			steps{
-				sh '~/google-cloud-sdk/bin/gcloud container clusters create westerdals-k8s2-cluster'
+				sh '~/google-cloud-sdk/bin/gcloud container clusters get-credentials westerdals-k8s2-cluster'
+				sh "~/kubectl set image deployments/hello-web hello-web=eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-${BUILD_NUMBER}"
 			}
-		}
-		stage('Create deployment')  {	
-			steps{
-				sh '~/kubectl run hello-web --image=eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-1 --port=8080'
-			}
-		}
-		stage('Expose deployment and display ip-address')  {	
-			steps{
-				sh '''~/kubectl expose deployment hello-web --type="LoadBalancer"'''
-				sh '~/kubectl get service hello-web'
-				sleep 90
-				sh '~/kubectl get service hello-web'
-			}
-		}
-		stage('Scale app')  {	
-			steps{
-				input 'Proceed with scaling'
-				sh '~/kubectl scale --replicas=3 deployment/hello-web'
-				sh '~/kubectl get deployments'
-			}
-		}
-		stage('Delete cluster')  {	
-			steps{
-				input 'Delete cluster?'
-				sh '~/kubectl delete service hello-web'
-				sh '~/kubectl delete deployment hello-web'
-				sh '~/google-cloud-sdk/bin/gcloud container clusters delete --quiet westerdals-k8s2-cluster'
-			}
-		}
-				
+		}				
 	}
 	post {
 		always{
