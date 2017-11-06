@@ -40,6 +40,8 @@ pipeline {
 		}
 		stage('Update running app'){
 			steps{
+				sh '~/google-cloud-sdk/bin/gcloud container clusters get-credentials westerdals-k8s2-cluster'
+				sh "~/kubectl set image deployments/hello-web hello-web=eu.gcr.io/westerdals-185116/tomcat-fagdag:t8j8-${BUILD_NUMBER}"
 			}
 		}				
 	}
